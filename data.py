@@ -66,7 +66,7 @@ def routeStops():
     return ','.join(map(str, stops_id_list))
 
 
-def busyHr():
+def busyHr(date):
     stopIds = routeStops()
     stop_ids = stopIds.split(",")
     arrival_time_list = [ ]
@@ -76,7 +76,7 @@ def busyHr():
     max_trains = [ ]
     for ids in stop_ids:
         arrival_time_list.clear()
-        response = getSchedules(ids)
+        response = getSchedules(ids+'&filter[date]='+date)
         json_resp = response.json()
         resp_data3 = json_resp[ "data" ]
         for scheds in resp_data3:
@@ -127,8 +127,8 @@ def maxArrive(arr_time):
     return max_list
 
 
-def getBusyStation():
-    list_df_busy_hr = busyHr()
+def getBusyStation(date):
+    list_df_busy_hr = busyHr(date)
     stations = list_df_busy_hr[ 0 ]
     hours = list_df_busy_hr[ 1 ]
     max_frequency = max(list_df_busy_hr[ 2 ])
@@ -195,12 +195,16 @@ def getSalesStrategy(data):
                         if index == len(data) - 1:
                             break
                     skip_index = index
-    print('Time remaining {}s'.format(time_counter))
+    #print('Time remaining {}s'.format(time_counter))
     return list(zip(sales_platform, platform_time, sales_list))
 
 
 def displaySales(sales_strat):
+    total = 0
     for data in sales_strat:
             print('Platform:{} ArrTime:{}:{} DepTime:{}:{} #Sales:{}'.format(data[ 0 ], int(data[ 1 ])//60, int(data[ 1 ])%60,
                                                                              int(data[ 1 ])//60, int(data[ 1 ])%60 + 1,
                                                                              data[ 2 ]))
+            total = total + data[2]
+    print('\n')
+    print('Total Sales: {}'.format(total))

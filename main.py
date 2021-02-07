@@ -1,5 +1,4 @@
-import json
-import pandas as pd
+
 from data import getBusyStation
 from data import busyStationSchedule
 from data import getSalesStrategy
@@ -8,7 +7,9 @@ import sys
 
 
 def main(argv):
-    df = getBusyStation()
+    date = input('Enter date in YYYY-MM-DD format')
+    df = getBusyStation(date)
+    print('Station:{} Start Time:{}:{} Arrival Frequency:{}'.format(df[0],df[1],df[2],df[3]))
     station_data_list = busyStationSchedule(df)
     sales_strat = getSalesStrategy(station_data_list)
     displaySales(sales_strat )
