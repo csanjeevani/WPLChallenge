@@ -205,6 +205,7 @@ def displaySales(sales_strat):
             print('Platform:{} ArrTime:{}:{} DepTime:{}:{} #Sales:{}'.format(data[ 0 ], int(data[ 1 ])//60, int(data[ 1 ])%60,
                                                                              int(data[ 1 ])//60, int(data[ 1 ])%60 + 1,
                                                                              data[ 2 ]))
+            #total sales
             total = total + data[2]
     print('\n')
     print('Total Sales: {}'.format(total))
